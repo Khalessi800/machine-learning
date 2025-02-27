@@ -1,0 +1,22 @@
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+# Pipeline avec RandomForestClassifier
+pipeline_rf = Pipeline([
+    ('preprocessor', preprocessor),
+    ('classifier', RandomForestClassifier(n_estimators=100, random_state=42))
+])
+# Entraîner le modèle RandomForestClassifier
+pipeline_rf.fit(X_train, y_train)
+
+# Prédire avec RandomForestClassifier
+y_pred_rf = pipeline_rf.predict(X_test)
+print("\nRandom Forest Classifier:")
+print("Accuracy:", accuracy_score(y_test, y_pred_rf))
+print("Classification Report:\n", classification_report(y_test, y_pred_rf, target_names=['<=50K', '>50K']))
+# Afficher la matrice de confusion
+cm_rf = confusion_matrix(y_test, y_pred_rf)
+# Afficher la matrice de confusion pour RandomForestClassifier
+ConfusionMatrixDisplay(confusion_matrix=cm_rf, display_labels=['<=50K', '>50K']).plot(cmap=plt.cm.Blues)
+plt.title('Matrice de Confusion - Random Forest')
+plt.show()
